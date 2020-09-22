@@ -14,4 +14,10 @@ module.exports = {
     enable: true,
     package: 'egg-redis',
   },
+  security: {
+    enable: false,
+    xframe: {
+      enable: false,
+    },
+  },
 };
