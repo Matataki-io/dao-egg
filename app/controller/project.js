@@ -6,7 +6,7 @@ const fs = require('fs');
 class TokenController extends Controller {
   async list() {
     const { ctx } = this;
-    const { pageindex, pagesize } = ctx.query;
+    const { pageindex = 1, pagesize = 10 } = ctx.query;
     const result = await this.service.project.getProjectList(pageindex, pagesize);
     ctx.body = result;
   }
@@ -21,10 +21,16 @@ class TokenController extends Controller {
     }
     ctx.body = result;
   }
-  async setProject() {
+  async create() {
     const { ctx } = this;
     const { baseInfo = {}, miningInfo = [], resourceInfo = [] } = ctx.request.body;
-    const result = await this.service.project.setProject(baseInfo, miningInfo, resourceInfo);
+    const result = await this.service.project.create(baseInfo, miningInfo, resourceInfo);
+    ctx.body = result;
+  }
+  async update() {
+    const { ctx } = this;
+    const { baseInfo = {}, miningInfo = [], resourceInfo = [] } = ctx.request.body;
+    const result = await this.service.project.update(baseInfo, miningInfo, resourceInfo);
     ctx.body = result;
   }
   async uploadFile() {
