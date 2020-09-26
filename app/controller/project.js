@@ -22,8 +22,8 @@ class TokenController extends Controller {
   }
   async setProject() {
     const { ctx } = this;
-    const { baseInfo } = ctx.request.body;
-    const result = await this.service.project.setProject(baseInfo);
+    const { baseInfo = {}, miningInfo = [], resourceInfo = [] } = ctx.request.body;
+    const result = await this.service.project.setProject(baseInfo, miningInfo, resourceInfo);
     ctx.body = result;
   }
 }

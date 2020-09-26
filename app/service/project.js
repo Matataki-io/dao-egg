@@ -55,43 +55,55 @@ class ProjectService extends Service {
   }
   async setProject(baseInfo = {}, miningInfo = [], resourceInfo = []) {
     const conn = await this.app.mysql.beginTransaction();
-    const {
-      blockchain = 'ethereum',
-      name,
-      logo,
-      brief,
-      intro,
-      contract_address,
-      contract_totalsupply,
-      contract_audit,
-      contract_audit_report,
-      website,
-      sort,
-    } = baseInfo;
-    const insertProject = await conn.insert('project', {
-      blockchain,
-      name,
-      logo,
-      brief,
-      intro,
-      contract_address,
-      contract_totalsupply,
-      contract_audit,
-      contract_audit_report,
-      website,
-      sort,
-    });
-    const pid = insertProject.insertId;
-    for (const item of miningInfo) {
-      item.pid = pid;
+    try {
+      const {
+        blockchain = 'ethereum',
+        name,
+        logo,
+        brief,
+        intro,
+        contract_address,
+        contract_totalsupply,
+        contract_audit,
+        contract_audit_report,
+        website,
+        sort,
+      } = baseInfo;
+      const insertProject = await conn.insert('project', {
+        blockchain,
+        name,
+        logo,
+        brief,
+        intro,
+        contract_address,
+        contract_totalsupply,
+        contract_audit,
+        contract_audit_report,
+        website,
+        sort,
+      });
+      const pid = insertProject.insertId;
+      if (miningInfo.length > 0) {
+        for (const item of miningInfo) {
+          item.pid = pid;
+        }
+        const miningResult = await conn.insert('mining', miningInfo);
+        console.log(miningResult);
+      }
+      if (resourceInfo.length > 0) {
+        for (const item of resourceInfo) {
+          item.pid = pid;
+        }
+        const resourceResult = await conn.insert('resource', resourceInfo);
+        console.log(resourceResult);
+      }
+      conn.commit();
+      return pid;
+    } catch (error) {
+      this.ctx.logger.error('service project create error: ', error);
+      await conn.rollback();
+      return -1;
     }
-    for (const item of resourceInfo) {
-      item.pid = pid;
-    }
-    const miningResult = await conn.insert('mining', miningInfo);
-    const resourceResult = await conn.insert('resource', resourceInfo);
-    console.log(miningResult, resourceResult);
-    return insertProject;
   }
 }
 
