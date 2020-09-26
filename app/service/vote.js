@@ -19,7 +19,7 @@ class VoteService extends Service {
   async storeMysql(space, body, authorIpfsHash, relayerIpfsHash) {
     const msg = JSON.parse(body.msg);
     const query = 'INSERT IGNORE INTO messages SET ?;';
-    await this.app.mysql.queryAsync(query, [{
+    await this.app.mysql.query(query, [{
       id: authorIpfsHash,
       address: body.address,
       version: msg.version,
