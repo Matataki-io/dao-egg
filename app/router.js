@@ -12,4 +12,5 @@ module.exports = app => {
   router.get('/api/project/list', controller.project.list);
   router.get('/api/project/item', controller.project.item);
   router.post('/api/project/set', controller.project.setProject);
+  router.post('/api/uploadfile', controller.project.uploadFile);
 };

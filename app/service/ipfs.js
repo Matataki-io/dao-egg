@@ -30,6 +30,23 @@ class IpfsService extends Service {
     const result = await pinata.pinJSONToIPFS(body);
     return result.IpfsHash;
   }
+  async pinFile(file) {
+    const pinata = this.ctx.pinata;
+    const options = {
+      /* pinataMetadata: {
+        name: 'MyCustomName',
+        keyvalues: {
+          customKey: 'customValue',
+          customKey2: 'customValue2',
+        },
+      },
+      pinataOptions: {
+        cidVersion: 0,
+      }, */
+    };
+    const res = await pinata.pinFileToIPFS(file, options);
+    return res;
+  }
 }
 
 module.exports = IpfsService;

@@ -1,6 +1,7 @@
 'use strict';
 
 const Controller = require('egg').Controller;
+const fs = require('fs');
 
 class TokenController extends Controller {
   async list() {
@@ -24,6 +25,14 @@ class TokenController extends Controller {
     const { ctx } = this;
     const { baseInfo = {}, miningInfo = [], resourceInfo = [] } = ctx.request.body;
     const result = await this.service.project.setProject(baseInfo, miningInfo, resourceInfo);
+    ctx.body = result;
+  }
+  async uploadFile() {
+    const { ctx } = this;
+    const file = ctx.request.files[0];
+    const readableStreamForFile = fs.createReadStream(file.filepath);
+    const result = await this.service.ipfs.pinFile(readableStreamForFile);
+    await fs.unlinkSync(file.filepath);
     ctx.body = result;
   }
 }
