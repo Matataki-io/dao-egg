@@ -6,7 +6,7 @@ class ProjectService extends Service {
     const offset = (parseInt(pi) - 1) * parseInt(pz);
     const limit = parseInt(pz);
     const list = await this.app.mysql.select('project', {
-      orders: [[ 'sort', 'desc' ]],
+      orders: [[ 'id', 'desc' ]],
       limit,
       offset,
     });
