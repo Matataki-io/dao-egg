@@ -52,6 +52,7 @@ class ProjectService extends Service {
       ...project,
       resource,
       mining,
+      space: this.getSpaceJson(project),
     };
   }
   async create(baseInfo = {}, miningInfo = [], resourceInfo = []) {
