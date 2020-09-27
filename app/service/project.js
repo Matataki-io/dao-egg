@@ -32,6 +32,7 @@ class ProjectService extends Service {
       ...project,
       resource,
       mining,
+      space: this.getSpaceJson(project),
     };
   }
   async getProjectByAddress(address) {
@@ -186,6 +187,24 @@ class ProjectService extends Service {
       await conn.rollback();
       return -1;
     }
+  }
+  async getSpaceJson(project) {
+    const address = project.contract_address;
+    const name = project.name;
+    return {
+      key: name,
+      name,
+      chainId: 1,
+      decimals: 18,
+      symbol: name,
+      defaultView: 'all',
+      address,
+      token: address,
+      core: [],
+      min: 1,
+      invalid: [],
+      strategies: [],
+    };
   }
 }
 
