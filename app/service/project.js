@@ -193,7 +193,7 @@ class ProjectService extends Service {
       return -1;
     }
   }
-  async getSpaceJson(project) {
+  getSpaceJson(project) {
     const address = project.contract_address;
     const name = project.name;
     return {
