@@ -35,6 +35,7 @@ class TokenController extends Controller {
   }
   async uploadFile() {
     const { ctx } = this;
+    console.log(ctx.request.files);
     const file = ctx.request.files[0];
     const readableStreamForFile = fs.createReadStream(file.filepath);
     const result = await this.service.ipfs.pinFile(readableStreamForFile);
