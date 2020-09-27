@@ -30,7 +30,7 @@ class TokenController extends Controller {
   async update() {
     const { ctx } = this;
     const { baseInfo = {}, miningInfo = [], resourceInfo = [] } = ctx.request.body;
-    const result = await this.service.project.update(baseInfo, miningInfo, resourceInfo);
+    const result = await this.service.project.update2(baseInfo, miningInfo, resourceInfo);
     ctx.body = result;
   }
   async uploadFile() {

@@ -95,9 +95,39 @@ address,
 	]
 }
 ```
-
-
 ##### update project
+* POST /api/project/update
+* body
+```
+{
+	"baseInfo": {
+	    "id": 1,
+	    "intro": "test2",
+	    "sort": 2
+	},
+	"miningInfo": [
+        {
+            "symbol": "DACC-LP",
+            "url": "https://www.myrose.finance/",
+            "amount": "100000"
+        }
+	],
+	"resourceInfo": [
+        {
+            "pid": 1,
+            "name": "twitter",
+            "url": "https://twitter.com/DACCblockchain"
+        },
+        {
+            "pid": 1,
+            "name": "discord",
+            "url": "https://discord.com/DACCblockchain"
+        }
+	]
+}
+```
+
+##### update project [废弃]
 * POST /api/project/update
 * body
 ⚠️ baseInfo对象需要有项目的id

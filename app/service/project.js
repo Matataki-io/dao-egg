@@ -154,6 +154,39 @@ class ProjectService extends Service {
       return -1;
     }
   }
+  async update2(baseInfo = {}, miningInfo = [], resourceInfo = []) {
+    const conn = await this.app.mysql.beginTransaction();
+    try {
+      await conn.update('project', baseInfo);
+      const pid = baseInfo.id;
+      // delete
+      await conn.query(`
+        DELETE FROM mining WHERE pid = :pid;
+        DELETE FROM resource WHERE pid = :pid;`, { pid });
+      // insert
+      if (miningInfo.length > 0) {
+        for (const item of miningInfo) {
+          item.pid = pid;
+          delete item.id;
+        }
+        await conn.insert('mining', miningInfo);
+      }
+      // insert
+      if (resourceInfo.length > 0) {
+        for (const item of resourceInfo) {
+          item.pid = pid;
+          delete item.id;
+        }
+        await conn.insert('resource', resourceInfo);
+      }
+      conn.commit();
+      return pid;
+    } catch (error) {
+      this.ctx.logger.error('service project create error: ', error);
+      await conn.rollback();
+      return -1;
+    }
+  }
 }
 
 module.exports = ProjectService;
