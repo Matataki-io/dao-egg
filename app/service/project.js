@@ -28,11 +28,13 @@ class ProjectService extends Service {
       where: { pid: id },
     });
     const project = item[0];
+    const space = this.getSpaceJson(project);
+    console.log('space: ', space);
     return {
       ...project,
       resource,
       mining,
-      space: this.getSpaceJson(project),
+      space,
     };
   }
   async getProjectByAddress(address) {
@@ -48,11 +50,13 @@ class ProjectService extends Service {
       where: { pid: id },
     });
     const project = item[0];
+    const space = this.getSpaceJson(project);
+    console.log('space: ', space);
     return {
       ...project,
       resource,
       mining,
-      space: this.getSpaceJson(project),
+      space,
     };
   }
   async create(baseInfo = {}, miningInfo = [], resourceInfo = []) {
