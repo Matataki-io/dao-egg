@@ -2,7 +2,10 @@
 
 const Service = require('egg').Service;
 const Discord = require('discord.js');
-const token = 'NzY0MDE5MzMwOTQ5NDQ3Njkw.X4AKcw.Q59dTyRNz7-q0TKIAW5iMoGJxzw';
+const configFile = require('../../config/config.default');
+const config = configFile({ name: 'Get Config' });
+
+const token = config.ss.DISCORD_TOKEN;
 const channel = '761066043304181806';
 let lastMessage;
 const client = new Discord.Client();
