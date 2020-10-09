@@ -2,32 +2,35 @@
 
 const Service = require('egg').Service;
 const Discord = require('discord.js');
+const token = 'NzY0MDE5MzMwOTQ5NDQ3Njkw.X4AKcw.Q59dTyRNz7-q0TKIAW5iMoGJxzw';
+const channel = '761066043304181806';
+let lastMessage;
+const client = new Discord.Client();
+let speaker;
+client.on('ready', () => {
+  console.log(`Discord bot logged as "${client.user.tag}"`);
+  // console.log('client', client.channels);
+  speaker = client.channels.cache.get(channel);
+  /* let message = '#0xAba8cAc6866B83Ae4eec97DD07ED254282f6aD8A\n\n';
+  message += '**test**\n\n';
+  message += 'test22\n\n';
+  message += '<https://ipfs.fleek.co/ipfs/QmTW1Xf1zuG1rLguc8PcdpScYzAE73x4zvs784wVigbw3s>';
+  speaker.send(message); */
+  // console.log('speaker: ', speaker);
+});
+client.on('message', msg => {
+  if (msg.content === 'ping') {
+    msg.reply('pong');
+  }
+});
+client.login(token);
 
 
 class DiscordService extends Service {
-  constructor(ctx, app) {
-    super(ctx, app);
-    const token = this.config.ss.DISCORD_TOKEN;
-    const channel = '747525655960354920';
-    let lastMessage;
-    const client = new Discord.Client();
-    let speaker;
-    client.on('ready', () => {
-      console.log(`Discord bot logged as "${client.user.tag}"`);
-      speaker = client.channels.cache.get(channel);
-    });
-    client.on('message', msg => {
-      if (msg.content === 'ping') {
-        msg.reply('pong');
-      }
-    });
-    client.login(token);
-    ctx.discord.client = client;
-    ctx.discord.speaker = speaker;
-    ctx.discord.lastMessage = lastMessage;
-  }
   sendMessage(message) {
-    const speaker = this.ctx.discord.speaker;
+    // const speaker = this.app.discord.speaker;
+    // console.log('message', message);
+    // console.log(speaker);
     try {
       if (speaker) return speaker.send(message);
       console.log(`Missing bot message: ${message}`);
@@ -37,14 +40,14 @@ class DiscordService extends Service {
     }
   }
   editLastMessage(message) {
-    const client = this.ctx.discord.client;
-    let lastMessage = this.ctx.discord.lastMessage;
+    // const client = this.app.discord.client;
+    // let lastMessage = this.app.discord.lastMessage;
     if (client.user.lastMessage) lastMessage = client.user.lastMessage;
     if (lastMessage) return lastMessage.edit(message);
     return this.sendMessage(message);
   }
   setActivity(message) {
-    const client = this.ctx.discord.client;
+    // const client = this.app.discord.client;
     try {
       client.user.setActivity(message, { type: 'WATCHING' });
     } catch (e) {

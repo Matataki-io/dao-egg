@@ -95,11 +95,11 @@ class VoteController extends Controller {
         this.service.proposal.storeMysql(msg.token, body, authorIpfsRes, relayerIpfsRes),
       ]);
 
-      /* let message = `#${msg.token}\n\n`;
+      let message = `#${msg.token}\n\n`;
       message += `**${msg.payload.name}**\n\n`;
       message += `${msg.payload.body}\n\n`;
       message += `<https://ipfs.fleek.co/ipfs/${authorIpfsRes}>`;
-      this.service.discord.sendMessage(message); */
+      this.service.discord.sendMessage(message);
     }
 
     if (msg.type === 'vote') {
